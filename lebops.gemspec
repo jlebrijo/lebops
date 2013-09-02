@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Lebops::VERSION
   spec.authors       = ["Juan Lebrijo"]
   spec.email         = ["juan@lebrijo.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Rake and Capistrano tasks particular for Lebrijo.com servers}
+  spec.summary       = %q{Gem for Lebrijo.com Deployment}
+  spec.homepage      = "http://www.lebrijo.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
