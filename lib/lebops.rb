@@ -1,5 +1,5 @@
 require "lebops/version"
 
 module Lebops
-  # Your code goes here...
+  require 'lebops/railitie' if defined?(Rails)
 end
