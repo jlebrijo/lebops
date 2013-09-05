@@ -34,6 +34,7 @@ configuration.load do
   set :user_sudo, false
 
   namespace :app do
+
     desc "Setup or reset: DB and App_server"
     task :setup, :roles => :app do
       rvm.install_rvm
@@ -46,6 +47,7 @@ configuration.load do
       deploy.precompile_assets
       thin.start
     end
+
     desc "Update from last release: DB and App_server"
     task :update, :roles => :app do
       deploy.update
@@ -54,6 +56,35 @@ configuration.load do
       deploy.precompile_assets
       thin.restart
     end
+  end
+
+  namespace :ops do
+
+    desc "Tail the Rails log for the current stage"
+    task :log, :roles => :app do
+      stream "tail -f #{deploy_to}/shared/log/#{stage}.log"
+    end
+
+    desc "Open a console for the current stage"
+    task :console, :roles => :app do
+      ssh_prompt(%{cd #{current_path} && /usr/local/rvm/bin/rvm-shell -c 'bundle exec rails c #{stage}'})
+    end
+
+    desc "Open a ssh connection for the current stage"
+    task :ssh, :roles => :app do
+      ssh_prompt()
+    end
+  end
+
+  def ssh_prompt(remote_command = "")
+    hostname = find_servers_for_task(current_task).first
+    ssh_call = %{ssh #{user}@#{hostname}}
+
+    if remote_command
+      ssh_call = %{#{ssh_call} -t "#{remote_command}"}
+    end
+
+    exec ssh_call
   end
 
   namespace :thin do
