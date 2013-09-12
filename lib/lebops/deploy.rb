@@ -24,7 +24,6 @@ configuration.load do
   set(:thin_config_file) {"#{thin_config_path}/#{application}-#{stage}.yml"}
 
   ## rvm
-  set :rvm_ruby_string, "ruby-1.9.3-p448@#{application}"
   set :rvm_type, :system
   require "rvm/capistrano"
 
