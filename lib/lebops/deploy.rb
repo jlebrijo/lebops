@@ -36,12 +36,12 @@ configuration.load do
 
     desc "Setup or reset: DB and App_server"
     task :setup, :roles => :app do
-      rvm.install_rvm
       rvm.install_ruby
       deploy.setup
       deploy.check
       deploy.update # also does bundle.install
       thin.setup
+      thin.config
       db.setup
       deploy.precompile_assets
       thin.start
