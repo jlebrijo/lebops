@@ -50,7 +50,6 @@ configuration.load do
     desc "Update from last release: DB and App_server"
     task :update, :roles => :app do
       deploy.update
-      bundle.install
       db.migrate
       deploy.precompile_assets
       thin.restart
@@ -87,11 +86,14 @@ configuration.load do
   end
 
   namespace :thin do
-    desc "Sets up Thin server environments"
+    desc "Sets up Thin gem"
     task :setup, :roles => :app do
       invoke_command "cd #{current_path} && gem install thin --no-ri --no-rdoc"
       run "mkdir /etc/thin"
       run "chmod 775 /etc/thin"
+    end
+    desc "Creates config file"
+    task :config, :roles => :app do
       invoke_command "cd #{current_path} && thin config -C #{thin_config_file} -c #{current_path} -e #{stage} --servers #{thin_servers} --port #{thin_port}"
     end
     desc "Start server"
