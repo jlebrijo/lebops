@@ -42,7 +42,8 @@ configuration.load do
       deploy.update # also does bundle.install
       thin.setup
       thin.config
-      db.setup
+      db.config
+      db.reset
       deploy.precompile_assets
       thin.start
     end
@@ -112,8 +113,25 @@ configuration.load do
   end
 
   namespace :db do
-    desc "Set up the database: create, migrate and seed"
-    task :setup, :roles => :db do
+    desc "Configure database.yml"
+    task :config, :roles => :db do
+      db_config = <<-EOF
+      #{stage}: &base
+        adapter:  postgresql
+        host:     localhost
+        encoding: utf8
+        pool:     5
+        username: #{database_username}
+        password: #{database_password}
+        template: template0
+        database: #{application}_#{stage}
+      EOF
+
+      run "mkdir -p #{shared_path}/config"
+      put db_config, "#{shared_path}/config/database.yml"
+    end
+    desc "Sets up the database: drop if exists, create, migrate and seed"
+    task :reset, :roles => :db do
       run "#{rake_command} db:drop"
       run "#{rake_command} db:create"
       run "#{rake_command} db:migrate"

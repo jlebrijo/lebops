@@ -49,7 +49,7 @@ pre. cap [env] app:update
 
 h3. Operation tasks
 
-pre. rake app:db_reset                 # Reset and seed DataBase
+pre. rake db:reset                 # Reset and seed DataBase
 
 Really usefull commands to access your envirinments:
 
