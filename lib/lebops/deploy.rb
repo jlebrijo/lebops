@@ -92,8 +92,10 @@ configuration.load do
     desc "Sets up Thin gem"
     task :setup, :roles => :app do
       invoke_command "cd #{current_path} && gem install thin --no-ri --no-rdoc"
-      run "mkdir /etc/thin"
-      run "chmod 775 /etc/thin"
+      unless File.directory?("/etc/thin")
+        run "mkdir /etc/thin"
+        run "chmod 775 /etc/thin"
+      end
     end
     desc "Creates config file"
     task :config, :roles => :app do
