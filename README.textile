@@ -58,6 +58,7 @@ cap [env] ops:log                  # Tail the Rails log for the current stage
 cap [env] ops:ssh                  # Open a ssh connection for the current stage
 
 App server:
+
 pre. cap [env] thin:restart             # Restart server
 cap [env] thin:setup               # Sets up Thin server environments
 cap [env] thin:start               # Start server
