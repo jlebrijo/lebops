@@ -99,15 +99,15 @@ configuration.load do
     end
     desc "Creates config file"
     task :config, :roles => :app do
-      invoke_command "cd #{current_path} && thin config -C #{thin_config_file} -c #{current_path} -e #{stage} --servers #{thin_servers} --port #{thin_port}"
+      invoke_command "cd #{current_path} && bundle exec thin config -C #{thin_config_file} -c #{current_path} -e #{stage} --servers #{thin_servers} --port #{thin_port}"
     end
     desc "Start server"
     task :start, :roles => :app do
-      invoke_command "cd #{current_path} && thin start -C #{thin_config_file}"
+      invoke_command "cd #{current_path} && bundle exec thin start -C #{thin_config_file}"
     end
     desc "Stop server"
     task :stop, :roles => :app do
-      invoke_command "cd #{current_path} && thin stop -C #{thin_config_file}"
+      invoke_command "cd #{current_path} && bundle exec thin stop -C #{thin_config_file}"
     end
     desc "Restart server"
     task :restart, :roles => :app do
