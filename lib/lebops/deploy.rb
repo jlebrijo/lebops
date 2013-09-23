@@ -92,7 +92,7 @@ configuration.load do
     desc "Sets up Thin gem"
     task :setup, :roles => :app do
       invoke_command "cd #{current_path} && gem install thin --no-ri --no-rdoc"
-      unless File.directory?("/etc/thin")
+      unless remote_file_exists?("/etc/thin")
         run "mkdir /etc/thin"
         run "chmod 775 /etc/thin"
       end
@@ -158,4 +158,9 @@ configuration.load do
       run "#{rake_command} assets:precompile"
     end
   end
+end
+
+
+def remote_file_exists?(full_path)
+  'true' ==  capture("if [ -e #{full_path} ]; then echo 'true'; fi").strip
 end
