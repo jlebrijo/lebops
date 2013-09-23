@@ -1,4 +1,4 @@
-h1. Lebops
+h1. LebOps
 
 This is a Rails gem which normalizes the deployment life-cycle of Rails Web App.
 
@@ -80,3 +80,9 @@ h2. Contributing
 # Commit your changes (`git commit -am 'Add some feature'`)
 # Push to the branch (`git push origin my-new-feature`)
 # Create new Pull Request
+
+h2. License
+
+MIT License. Copyright 2013 "Lebrijo.com":http://lebrijo.com
+
+You are not granted rights or licenses to the trademarks of the Lebrijo.com, including without limitation the LebOps name or logos.
