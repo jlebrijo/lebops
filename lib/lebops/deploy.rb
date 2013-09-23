@@ -133,6 +133,7 @@ configuration.load do
 
       run "mkdir -p #{shared_path}/config"
       put db_config, "#{shared_path}/config/database.yml"
+      run "ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
     end
     desc "Sets up the database: drop if exists, create, migrate and seed"
     task :reset, :roles => :db do
