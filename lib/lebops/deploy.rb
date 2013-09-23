@@ -26,6 +26,8 @@ configuration.load do
   ## rvm
   set :rvm_type, :system
   require "rvm/capistrano"
+  set :rvm_version, File.read('.ruby-version').strip
+  set :rvm_ruby_string, "#{rvm_version}@#{application}"
 
   require "bundler/capistrano"
 
