@@ -33,9 +33,6 @@ namespace :version do
         raise
       end
     end
-    # Pull Dev branch from Master
-    sh "git checkout master"
-    sh "git merge dev"
     # Synchronize remotes
     sh "git push origin master"
     sh "git push #{CLIENT_REMOTE} master"
@@ -43,7 +40,6 @@ namespace :version do
     sh "git tag -a v#{version_number} -m 'Version #{version_number} - #{Time.now.to_date}'"
     sh "git push origin --tags"
     sh "git push #{CLIENT_REMOTE} --tags"
-    sh "git checkout dev"
   end
 
   desc "Delete a version: rake version:remove[version_number]"

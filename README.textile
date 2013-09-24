@@ -1,11 +1,11 @@
 h1. LebOps
 
-This is a Rails gem which normalizes the deployment life-cycle of Rails Web App.
+Rails gem which normalizes the deployment life-cycle of Rails Web App.
 
 Based on:
 * RVM, Capistrano and Rake tasks.
 * Different environments [development test vagrant staging production]
-* Two differents repositories: Development and Client remotes
+* Two different repositories: Development and Client remotes
 
 h2.  Installation
 
@@ -23,7 +23,7 @@ pre. $ gem install lebops
 
 h2. Usage
 
-h3. Prepare Capistrano Environments
+h3. Configure Capistrano Environments
 
 1. Bundle and Capify with: capify .
 
@@ -38,40 +38,54 @@ pre. set :thin_servers, 1
 set :thin_port, 3500
 server "labs.myhome.com", :app, :web, :db, :primary => true
 set :repository,  "git@labs.myhome.com:#{application}.git"
+set :database_username, 'user'
+set :database_password, 'password'
 
 4. Install application:
 
 pre. cap [env] app:setup
 
-5. Update application:
-
-pre. cap [env] app:update
-
 h3. Operation tasks
 
-pre. rake db:reset                 # Reset and seed DataBase
+Application operation tasks:
 
-Really usefull commands to access your envirinments:
+pre. cap app:setup                # Setup or reset: DB and App_server
+cap app:update               # Update from last release: DB and App_server
+
+Accessing your environments resources:
 
 pre. cap [env] ops:console              # Open a console for the current stage
 cap [env] ops:log                  # Tail the Rails log for the current stage
 cap [env] ops:ssh                  # Open a ssh connection for the current stage
 
+DDBB Server:
+
+pre. cap [env] db:config                # Configure database.yml
+cap [env] db:migrate               # Only migrates ddbb
+cap [env] db:reset                 # Sets up the database: drop if exists, create, migrate and seed
+
 App server:
 
-pre. cap [env] thin:restart             # Restart server
-cap [env] thin:setup               # Sets up Thin server environments
+pre. cap [env] thin:config              # Creates config file
+cap [env] thin:restart             # Restart server
+cap [env] thin:setup               # Sets up Thin gem
 cap [env] thin:start               # Start server
 cap [env] thin:stop                # Stop server
 
-h3. Release Cycle
+Development cycle tasks:
+
+pre. rake db:reset                 # Reset and seed DataBase
+
+h3. Release Cycle tasks
+
+!https://raw.github.com/jlebrijo/lebops/master/public/release-management.png!
 
 Releasing code:
-* rake version:client_remote[git@bitbucket.org:jlebrijo/pet-contest.git] : create remote with client repo in local
-* rake version:release[0.1.3] : For all remotes
+* @rake version:client_remote[git@bitbucket.org:jlebrijo/pet-contest.git]@ : create remote with client repo in local
+* @rake version:release[0.1.3]@ : For all remotes
 ** Merge (Fast Forward) origin:master / client_remote:master
 ** Create a tag with version number
-* rake version:remove[0.1.3] : deletes version tag in all remotes
+* @rake version:remove[0.1.3]@ : deletes version tag in all remotes
 
 h2. Contributing
 
@@ -83,6 +97,6 @@ h2. Contributing
 
 h2. License
 
-MIT License. Copyright 2013 "Lebrijo.com":http://lebrijo.com
+MIT License. Copyright 2013 !http://www.lebrijo.com/assets/logo.png!:http://www.lebrijo.com
 
 You are not granted rights or licenses to the trademarks of the Lebrijo.com, including without limitation the LebOps name or logos.
