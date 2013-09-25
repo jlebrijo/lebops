@@ -53,6 +53,7 @@ configuration.load do
     desc "Update from last release: DB and App_server"
     task :update, :roles => :app do
       deploy.update
+      db.config
       db.migrate
       deploy.precompile_assets
       thin.restart
