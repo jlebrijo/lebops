@@ -31,6 +31,13 @@ configuration.load do
 
   require "bundler/capistrano"
 
+  ## whenever
+  set :whenever_command, "bundle exec whenever"
+  set :whenever_environment, defer { stage }
+  set :whenever_identifier, defer { "#{application}_#{stage}" }
+  require 'whenever/capistrano'
+
+
   set :user, "root"
   set :user_sudo, false
 
