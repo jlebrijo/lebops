@@ -136,7 +136,7 @@ configuration.load do
         username: #{database_username}
         password: #{database_password}
         template: template0
-        database: #{application}_#{stage}
+        database: #{database_name}_#{stage}
       EOF
 
       run "mkdir -p #{shared_path}/config"
