@@ -23,10 +23,10 @@ configuration.load do
   set :thin_config_path, "/etc/thin"
   set(:thin_config_file) {"#{thin_config_path}/#{application}-#{stage}.yml"}
 
-  ## rvm
+  ## RVM: Extracting Ruby version from Gemfile
   set :rvm_type, :system
   require "rvm/capistrano"
-  set :rvm_version, File.read('.ruby-version').strip
+  set :rvm_version, File.readlines('Gemfile').select{ |l| l.match(/^\#ruby=/)}.first.split('=').last
   set :rvm_ruby_string, "#{rvm_version}@#{application}"
 
   require "bundler/capistrano"
